@@ -2,7 +2,7 @@ FROM centos as dev_base
 RUN yum -y install centos-release-scl-rh
 RUN yum -y install devtoolset-8
 RUN yum -y install rh-python36-python-devel
-ENV COMMON_INSTALL_PREFIX=/usr/local/install/
+ENV COMMON_INSTALL_PREFIX=/usr/local/
 ENV COMMON_BUILD_PREFIX=/usr/local/build/
 RUN mkdir -p $COMMON_BUILD_PREFIX && \
     mkdir -p $COMMON_INSTALL_PREFIX && \
