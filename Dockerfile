@@ -19,7 +19,7 @@ RUN yum -y install  openssl-devel libcurl-devel \
                     qt-devel libxmu-devel \
                     libX11-devel libXaw-devel \
                     mysql-devel \
-                    wget which
+                    wget which autoconf
 # git 2.*
 ENV GIT_VER=2.21.0
 RUN . $COMMON_INSTALL_PREFIX/usr/setup.sh && \
@@ -28,6 +28,7 @@ RUN . $COMMON_INSTALL_PREFIX/usr/setup.sh && \
     tar -xf v2.*.tar.gz && \
     rm -f v2.*.tar.gz && \
     cd git-* && \
+    make configure && \
     ./configure --prefix=$COMMON_INSTALL_PREFIX && \
     make install  && \
     rm -rf $COMMON_BUILD_PREFIX/*
