@@ -57,3 +57,31 @@ RUN source $COMMON_INSTALL_PREFIX/usr/setup.sh && \
     make install && \
     cd $COMMON_BUILD_PREFIX && \
     rm -rf $COMMON_BUILD_PREFIX/*
+
+## CPPCHECK
+ENV CPPCHECK_VER=1.89
+RUN source $COMMON_INSTALL_PREFIX/usr/setup.sh && \
+    cd $COMMON_BUILD_PREFIX && \
+    wget https://github.com/danmar/cppcheck/archive/${CPPCHECK_VER}.tar.gz && \
+    tar -xf ${CPPCHECK_VER}.tar.gz && \
+    cd cppcheck-${CPPCHECK_VER}/ && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=$COMMON_INSTALL_PREFIX ../ && \
+    make -j3 && \
+    make install
+
+## DOXYGEN
+ENV DOXYGEN_VER=1.8.16
+RUN source $COMMON_INSTALL_PREFIX/usr/setup.sh && \
+    yum install flex && \
+    yum install bison && \
+    pip3 install graphviz && \
+    cd $COMMON_BUILD_PREFIX && \
+    wget http://doxygen.nl/files/doxygen-${DOXYGEN_VER}.src.tar.gz && \
+    tar -xf doxygen-*.tar.gz && \
+    cd doxygen-* && \
+    mkdir build; cd build && \
+    cmake -DCMAKE_INSTALL_PREFIX=$COMMON_INSTALL_PREFIX ../ && \
+    make -j3 && \
+    make install
