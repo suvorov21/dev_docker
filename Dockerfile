@@ -59,7 +59,7 @@ RUN source $COMMON_INSTALL_PREFIX/usr/setup.sh && \
     rm -rf $COMMON_BUILD_PREFIX/*
 
 ## CPPCHECK
-ENV CPPCHECK_VER=1.89
+ENV CPPCHECK_VER=1.88
 RUN source $COMMON_INSTALL_PREFIX/usr/setup.sh && \
     cd $COMMON_BUILD_PREFIX && \
     wget https://github.com/danmar/cppcheck/archive/${CPPCHECK_VER}.tar.gz && \
