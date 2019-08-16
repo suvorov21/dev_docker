@@ -1,6 +1,6 @@
 FROM centos as dev_base
 RUN yum -y install centos-release-scl-rh
-RUN yum -y install devtoolset-8
+RUN yum -y install devtoolset-7
 RUN yum -y install rh-python36-python-devel
 ENV COMMON_INSTALL_PREFIX=/usr/local/
 ENV COMMON_BUILD_PREFIX=/usr/local/build/
@@ -8,8 +8,8 @@ RUN mkdir -p $COMMON_BUILD_PREFIX && \
     mkdir -p $COMMON_INSTALL_PREFIX && \
     mkdir -p $COMMON_INSTALL_PREFIX/usr/ && \
     echo "#!bin/sh" > $COMMON_INSTALL_PREFIX/usr/setup.sh && \
-    echo ". scl_source enable devtoolset-8" >> $COMMON_INSTALL_PREFIX/usr/setup.sh && \
-    echo ". scl_source enable rh-python36" >> $COMMON_INSTALL_PREFIX/usr/setup.sh && \
+    echo "source /opt/rh/devtoolset-7/enable" >> $COMMON_INSTALL_PREFIX/usr/setup.sh && \
+    echo "source /opt/rh/rh-python36/enable" >> $COMMON_INSTALL_PREFIX/usr/setup.sh && \
     /bin/true
 FROM dev_base as dev_ext
 COPY --from=dev_base $COMMON_BUILD_PREFIX $COMMON_BUILD_PREFIX
@@ -74,14 +74,15 @@ RUN source $COMMON_INSTALL_PREFIX/usr/setup.sh && \
 ## DOXYGEN
 ENV DOXYGEN_VER=1.8.16
 RUN source $COMMON_INSTALL_PREFIX/usr/setup.sh && \
-    yum install flex && \
-    yum install bison && \
+    yum -y install flex && \
+    yum -y install bison && \
     pip3 install graphviz && \
     cd $COMMON_BUILD_PREFIX && \
     wget http://doxygen.nl/files/doxygen-${DOXYGEN_VER}.src.tar.gz && \
     tar -xf doxygen-*.tar.gz && \
     cd doxygen-* && \
-    mkdir build; cd build && \
+    mkdir build && \
+    cd build && \
     cmake -DCMAKE_INSTALL_PREFIX=$COMMON_INSTALL_PREFIX ../ && \
     make -j3 && \
     make install
